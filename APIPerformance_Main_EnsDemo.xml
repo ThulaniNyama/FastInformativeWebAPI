@@ -1,0 +1,546 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="25" zv="Cache for Windows (x86-64) 2017.2.1 (Build 801_3_18358U)" ts="2019-08-05 05:17:13">
+<Project name="APIPerformance" LastModified="2019-08-02 01:47:00.12434">
+  <Items>
+    <ProjectItem name="Training.APIPerformance.Messages.Request" type="CLS"></ProjectItem>
+    <ProjectItem name="Training.APIPerformance.Messages.Response" type="CLS"></ProjectItem>
+    <ProjectItem name="Training.APIPerformance.Target.Client" type="CLS"></ProjectItem>
+    <ProjectItem name="Training.APIPerformance.Version1.ProxyOperation" type="CLS"></ProjectItem>
+    <ProjectItem name="Training.APIPerformance.Version1.SOAPBusinessService" type="CLS"></ProjectItem>
+    <ProjectItem name="Training.APIPerformance.Version2.BusinessProcess.GenericLoggerProcess" type="CLS"></ProjectItem>
+    <ProjectItem name="Training.APIPerformance.Version2.BusinessService.LoggerService" type="CLS"></ProjectItem>
+    <ProjectItem name="Training.APIPerformance.Version2.BusinessService.iLoggerService" type="CLS"></ProjectItem>
+    <ProjectItem name="Training.APIPerformance.Version2.LoggerMessage.Error" type="CLS"></ProjectItem>
+    <ProjectItem name="Training.APIPerformance.Version2.LoggerMessage.Metrics" type="CLS"></ProjectItem>
+    <ProjectItem name="Training.APIPerformance.Version2.LoggerMessage.RequestorDetails" type="CLS"></ProjectItem>
+    <ProjectItem name="Training.APIPerformance.Version2.Loggers.ErrorLogger" type="CLS"></ProjectItem>
+    <ProjectItem name="Training.APIPerformance.Version2.Loggers.MessageLogger" type="CLS"></ProjectItem>
+    <ProjectItem name="Training.APIPerformance.Version2.Loggers.MetricLogger" type="CLS"></ProjectItem>
+    <ProjectItem name="Training.APIPerformance.Version2.Loggers.RequestorLogger" type="CLS"></ProjectItem>
+    <ProjectItem name="Training.APIPerformance.Version2.Loggers.iLogger" type="CLS"></ProjectItem>
+    <ProjectItem name="Training.APIPerformance.Version2.SOAPService" type="CLS"></ProjectItem>
+  </Items>
+</Project>
+
+
+<Class name="Training.APIPerformance.Messages.Request">
+<Super>Ens.Request</Super>
+<TimeChanged>65225,9712.646096</TimeChanged>
+<TimeCreated>65225,9712.374849</TimeCreated>
+
+<Property name="Content">
+<Type>%String</Type>
+<Parameter name="MAXLEN"/>
+</Property>
+
+<Storage name="Default">
+<Type>%Library.CacheStorage</Type>
+<DefaultData>RequestDefaultData</DefaultData>
+<Data name="RequestDefaultData">
+<Structure>listnode</Structure>
+<Subscript>"Request"</Subscript>
+<Value name="1">
+<Value>Content</Value>
+</Value>
+</Data>
+</Storage>
+</Class>
+
+
+<Class name="Training.APIPerformance.Messages.Response">
+<Super>Ens.Response</Super>
+<TimeChanged>65225,9719.421392</TimeChanged>
+<TimeCreated>65225,9719.061375</TimeCreated>
+
+<Property name="Content">
+<Type>%String</Type>
+<Parameter name="MAXLEN"/>
+</Property>
+
+<Storage name="Default">
+<Type>%Library.CacheStorage</Type>
+<DefaultData>ResponseDefaultData</DefaultData>
+<Data name="ResponseDefaultData">
+<Structure>listnode</Structure>
+<Subscript>"Response"</Subscript>
+<Value name="1">
+<Value>Content</Value>
+</Value>
+</Data>
+</Storage>
+</Class>
+
+
+<Class name="Training.APIPerformance.Target.Client">
+<ProcedureBlock>1</ProcedureBlock>
+<Super>%SOAP.WebClient</Super>
+<TimeChanged>65225,14310.980666</TimeChanged>
+<TimeCreated>65225,11453.016755</TimeCreated>
+
+<Property name="Username">
+<Description>
+Overriden username and password</Description>
+<Type>%String</Type>
+<InitialExpression>"_system"</InitialExpression>
+</Property>
+
+<Property name="Password">
+<Type>%String</Type>
+<InitialExpression>"sys"</InitialExpression>
+</Property>
+
+<Parameter name="LOCATION">
+<Description>
+This is the URL used to access the web service.</Description>
+<Default>http://localhost:57772/csp/ensemble/Training.APIPerformance.Target.MyService.cls</Default>
+</Parameter>
+
+<Parameter name="NAMESPACE">
+<Description>
+This is the namespace used by the Service</Description>
+<Default>http://tempuri.org</Default>
+</Parameter>
+
+<Parameter name="OUTPUTTYPEATTRIBUTE">
+<Description>
+Use xsi:type attribute for literal types.</Description>
+<Default>1</Default>
+</Parameter>
+
+<Parameter name="SECURITYIN">
+<Description>
+Determines handling of Security header.</Description>
+<Default>ALLOW</Default>
+</Parameter>
+
+<Parameter name="SERVICENAME">
+<Description>
+This is the name of the Service</Description>
+<Default>MyService</Default>
+</Parameter>
+
+<Parameter name="SOAPVERSION">
+<Description>
+This is the SOAP version supported by the service.</Description>
+<Default>1.1</Default>
+</Parameter>
+
+<Method name="SaveRequest">
+<Final>1</Final>
+<FormalSpec>pRequest:Training.APIPerformance.Messages.Request</FormalSpec>
+<ProcedureBlock>1</ProcedureBlock>
+<ReturnType>Training.APIPerformance.Messages.Response</ReturnType>
+<WebMethod>1</WebMethod>
+<SoapBindingStyle>document</SoapBindingStyle>
+<SoapBodyUse>literal</SoapBodyUse>
+<Implementation><![CDATA[ Quit ..WebMethod("SaveRequest").Invoke($this,"http://tempuri.org/Training.APIPerformance.Target.MyService.SaveRequest",.pRequest)
+]]></Implementation>
+</Method>
+</Class>
+
+
+<Class name="Training.APIPerformance.Version1.ProxyOperation">
+<Super>Ens.BusinessOperation</Super>
+<TimeChanged>65225,15496.326932</TimeChanged>
+<TimeCreated>65225,5646.047699</TimeCreated>
+
+<Method name="OnMessage">
+<FormalSpec>pRequest:Training.APIPerformance.Messages.Request,*pResponse:Training.APIPerformance.Messages.Response</FormalSpec>
+<ReturnType>%Status</ReturnType>
+<Implementation><![CDATA[
+	Set tClientObject = ##Class(Training.APIPerformance.Target.Client).%New()
+	
+	Set pResponse = tClientObject.SaveRequest(pRequest)
+	
+	Quit $$$OK
+]]></Implementation>
+</Method>
+</Class>
+
+
+<Class name="Training.APIPerformance.Version1.SOAPBusinessService">
+<ProcedureBlock>1</ProcedureBlock>
+<Super>EnsLib.SOAP.Service</Super>
+<TimeChanged>65226,37611.311531</TimeChanged>
+<TimeCreated>65225,4570.020432</TimeCreated>
+
+<Parameter name="SERVICENAME">
+<Description>
+Name of the WebService.</Description>
+<Default>SOAPBusinessService</Default>
+</Parameter>
+
+<Parameter name="NAMESPACE">
+<Description>
+TODO: change this to actual SOAP namespace.
+SOAP Namespace for the WebService</Description>
+<Default>http://tempuri.org</Default>
+</Parameter>
+
+<Parameter name="USECLASSNAMESPACES">
+<Description>
+Namespaces of referenced classes will be used in the WSDL.</Description>
+<Default>1</Default>
+</Parameter>
+
+<Method name="Proxy">
+<Description>
+TODO: add arguments and implementation.
+Test</Description>
+<FormalSpec>pRequest:Training.APIPerformance.Messages.Request</FormalSpec>
+<ReturnType>Training.APIPerformance.Messages.Response</ReturnType>
+<WebMethod>1</WebMethod>
+<Implementation><![CDATA[
+	Set pResponse = ##Class(Training.APIPerformance.Messages.Response).%New()
+	$$$THROWONERROR(sc,..SendRequestSync("Training.APIPerformance.Version1.ProxyOperation",pRequest,.pResponse))
+	
+	Quit pResponse
+]]></Implementation>
+</Method>
+</Class>
+
+
+<Class name="Training.APIPerformance.Version2.BusinessProcess.GenericLoggerProcess">
+<Super>Ens.BusinessProcess</Super>
+<TimeChanged>65226,58963.067695</TimeChanged>
+<TimeCreated>65226,58962.600311</TimeCreated>
+
+<Method name="OnRequest">
+<FormalSpec>pRequest:Ens.Request,*pResponse:Ens.Response</FormalSpec>
+<ReturnType>%Status</ReturnType>
+<Implementation><![CDATA[
+
+	Quit $$$OK
+]]></Implementation>
+</Method>
+
+<Storage name="Default">
+<Type>%Library.CacheStorage</Type>
+</Storage>
+</Class>
+
+
+<Class name="Training.APIPerformance.Version2.BusinessService.LoggerService">
+<Super>Ens.BusinessService,iLoggerService</Super>
+<TimeChanged>65228,72593.477126</TimeChanged>
+<TimeCreated>65226,58930.580638</TimeCreated>
+
+<Method name="Log">
+<FormalSpec>pLoggerName:%String,pMessage:%RegisteredObject</FormalSpec>
+<ReturnType>%Status</ReturnType>
+<Implementation><![CDATA[
+	$$$THROWONERROR(tSC, ..SendRequestAsync(pLoggerName,pMessage))
+	Quit $$$OK
+]]></Implementation>
+</Method>
+</Class>
+
+
+<Class name="Training.APIPerformance.Version2.BusinessService.iLoggerService">
+<Abstract>1</Abstract>
+<TimeChanged>65226,61738.671701</TimeChanged>
+<TimeCreated>65226,61738.671701</TimeCreated>
+
+<Method name="Log">
+<Abstract>1</Abstract>
+<FormalSpec>LoggerType:%String,pMessage:%RegisteredObject</FormalSpec>
+<ReturnType>%Status</ReturnType>
+<Implementation><![CDATA[	Quit $$$OK
+]]></Implementation>
+</Method>
+</Class>
+
+
+<Class name="Training.APIPerformance.Version2.LoggerMessage.Error">
+<Super>Ens.Request</Super>
+<TimeChanged>65230,13228.983377</TimeChanged>
+<TimeCreated>65226,59313.180887</TimeCreated>
+
+<Property name="ErrorString">
+<Type>%String</Type>
+<Parameter name="MAXLEN"/>
+</Property>
+
+<Storage name="Default">
+<Type>%Library.CacheStorage</Type>
+<DefaultData>ErrorDefaultData</DefaultData>
+<Data name="ErrorDefaultData">
+<Subscript>"Error"</Subscript>
+<Value name="1">
+<Value>ErrorString</Value>
+</Value>
+</Data>
+</Storage>
+</Class>
+
+
+<Class name="Training.APIPerformance.Version2.LoggerMessage.Metrics">
+<Super>Ens.Request</Super>
+<TimeChanged>65226,85133.640453</TimeChanged>
+<TimeCreated>65226,85114.297755</TimeCreated>
+
+<Property name="RequestSize">
+<Type>%Integer</Type>
+</Property>
+
+<Property name="ResponseSize">
+<Type>%Integer</Type>
+</Property>
+
+<Storage name="Default">
+<Type>%Library.CacheStorage</Type>
+<DefaultData>MetricsDefaultData</DefaultData>
+<Data name="MetricsDefaultData">
+<Subscript>"Metrics"</Subscript>
+<Value name="1">
+<Value>RequestSize</Value>
+</Value>
+<Value name="2">
+<Value>ResponseSize</Value>
+</Value>
+<Value name="3">
+<Value>ProcessTimeInSec</Value>
+</Value>
+</Data>
+</Storage>
+</Class>
+
+
+<Class name="Training.APIPerformance.Version2.LoggerMessage.RequestorDetails">
+<Super>Ens.Request</Super>
+<TimeChanged>65226,59286.791905</TimeChanged>
+<TimeCreated>65226,59286.272033</TimeCreated>
+
+<Property name="RequestingIP">
+<Type>%String</Type>
+</Property>
+
+<Property name="RequestingPort">
+<Type>%String</Type>
+</Property>
+
+<Property name="RequestingUser">
+<Type>%String</Type>
+</Property>
+
+<Storage name="Default">
+<Type>%Library.CacheStorage</Type>
+<DefaultData>RequestorDetailsDefaultData</DefaultData>
+<Data name="RequestorDetailsDefaultData">
+<Structure>listnode</Structure>
+<Subscript>"RequestorDetails"</Subscript>
+<Value name="1">
+<Value>RequestingIP</Value>
+</Value>
+<Value name="2">
+<Value>RequestingPort</Value>
+</Value>
+<Value name="3">
+<Value>RequestingUser</Value>
+</Value>
+</Data>
+</Storage>
+</Class>
+
+
+<Class name="Training.APIPerformance.Version2.Loggers.ErrorLogger">
+<Super>%RegisteredObject,iLogger</Super>
+<TimeChanged>65226,65689.607272</TimeChanged>
+<TimeCreated>65226,63184.104949</TimeCreated>
+
+<Method name="Log">
+<FormalSpec>ex</FormalSpec>
+<ReturnType>%Status</ReturnType>
+<Implementation><![CDATA[
+	Set pMessage = $SYSTEM.Status.GetErrorText(ex.AsStatus())
+	Set ErrObj = ##Class(Training.APIPerformance.Version2.LoggerMessage.Error).%New()
+	Set ErrObj.ErrorString=pMessage
+	Quit ..LoggerService.Log("ErrorLogger",ErrObj)
+]]></Implementation>
+</Method>
+</Class>
+
+
+<Class name="Training.APIPerformance.Version2.Loggers.MessageLogger">
+<Super>%RegisteredObject,iLogger</Super>
+<TimeChanged>65226,63039.289433</TimeChanged>
+<TimeCreated>65226,61048.425691</TimeCreated>
+
+<Method name="Log">
+<FormalSpec>pMessage</FormalSpec>
+<ReturnType>%Status</ReturnType>
+<Implementation><![CDATA[	Quit ..LoggerService.Log("MessageLogger",pMessage)
+]]></Implementation>
+</Method>
+</Class>
+
+
+<Class name="Training.APIPerformance.Version2.Loggers.MetricLogger">
+<Super>%RegisteredObject,iLogger</Super>
+<TimeChanged>65226,85293.049821</TimeChanged>
+<TimeCreated>65226,84742.97119</TimeCreated>
+
+<Property name="RequestSize">
+<Type>%Integer</Type>
+<Private>1</Private>
+</Property>
+
+<Property name="ResponseSize">
+<Type>%Integer</Type>
+<Private>1</Private>
+</Property>
+
+<Method name="Log">
+<ReturnType>%Status</ReturnType>
+<Implementation><![CDATA[
+	Set MetricObj = ##Class(Training.APIPerformance.Version2.LoggerMessage.Metrics).%New()
+	Set MetricObj.RequestSize = ..RequestSize
+	Set MetricObj.ResponseSize = ..ResponseSize
+	Quit ..LoggerService.Log("MetricLogger",MetricObj)
+]]></Implementation>
+</Method>
+
+<Method name="Record">
+<FormalSpec>pMessage:%RegisteredObject</FormalSpec>
+<ReturnType>%Status</ReturnType>
+<Implementation><![CDATA[
+	$$$THROWONERROR(tSC,pMessage.XMLExportToStream(.tStream))
+	if pMessage.%Extends("Ens.Request") 
+	{
+		Set ..RequestSize = tStream.Size
+	}
+	elseif pMessage.%Extends("Ens.Response")
+	{
+		Set ..ResponseSize = tStream.Size
+	}
+	Quit $$$OK
+]]></Implementation>
+</Method>
+</Class>
+
+
+<Class name="Training.APIPerformance.Version2.Loggers.RequestorLogger">
+<Super>%RegisteredObject,iLogger</Super>
+<TimeChanged>65226,66273.516836</TimeChanged>
+<TimeCreated>65226,63232.422695</TimeCreated>
+
+<Method name="Log">
+<FormalSpec>pUserName</FormalSpec>
+<ReturnType>%Status</ReturnType>
+<Implementation><![CDATA[
+	Set RequestorObj = ##Class(Training.APIPerformance.Version2.LoggerMessage.RequestorDetails).%New()
+	Set RequestorObj.RequestingUser = pUserName
+	Set RequestorObj.RequestingIP = %request.CgiEnvs("REMOTE_ADDR")
+	Set RequestorObj.RequestingPort = %request.CgiEnvs("REMOTE_PORT")
+	Quit ..LoggerService.Log("RequestorLogger",RequestorObj)
+]]></Implementation>
+</Method>
+</Class>
+
+
+<Class name="Training.APIPerformance.Version2.Loggers.iLogger">
+<Abstract>1</Abstract>
+<TimeChanged>65226,66157.466259</TimeChanged>
+<TimeCreated>65226,62210.65235</TimeCreated>
+
+<Property name="LoggerService">
+<Type>Training.APIPerformance.Version2.BusinessService.iLoggerService</Type>
+</Property>
+
+<Method name="%OnNew">
+<Final>1</Final>
+<FormalSpec>pLoggerService:Training.APIPerformance.Version2.BusinessService.iLoggerService</FormalSpec>
+<ReturnType>%Status</ReturnType>
+<Implementation><![CDATA[
+	Quit:'$IsObject(pLoggerService) $$$ERROR($$$GeneralError,"Logger Service Object Not passed")
+	Quit:'pLoggerService.%Extends("Training.APIPerformance.Version2.BusinessService.iLoggerService") $$$ERROR($$$GeneralError,"Incorrect Logger Service Object passed")
+	Set ..LoggerService = pLoggerService
+	
+	Quit $$$OK
+]]></Implementation>
+</Method>
+
+<Method name="Log">
+<Abstract>1</Abstract>
+<FormalSpec>pParams</FormalSpec>
+<ReturnType>%Status</ReturnType>
+<Implementation><![CDATA[	Quit $$$OK
+]]></Implementation>
+</Method>
+</Class>
+
+
+<Class name="Training.APIPerformance.Version2.SOAPService">
+<Description>
+Training.APIPerformance.Version2.SOAPService</Description>
+<ProcedureBlock>1</ProcedureBlock>
+<Super>%SOAP.WebService</Super>
+<TimeChanged>65226,85475.865736</TimeChanged>
+<TimeCreated>65225,17210.671999</TimeCreated>
+
+<Parameter name="SERVICENAME">
+<Description>
+Name of the WebService.</Description>
+<Default>SOAPService</Default>
+</Parameter>
+
+<Parameter name="NAMESPACE">
+<Description>
+TODO: change this to actual SOAP namespace.
+SOAP Namespace for the WebService</Description>
+<Default>http://tempuri.org</Default>
+</Parameter>
+
+<Parameter name="USECLASSNAMESPACES">
+<Description>
+Namespaces of referenced classes will be used in the WSDL.</Description>
+<Default>1</Default>
+</Parameter>
+
+<Parameter name="LoggerBusinessService">
+<Description>
+Logger Business Service</Description>
+<Default>Version2LoggerService</Default>
+</Parameter>
+
+<Method name="Proxy">
+<Description>
+TODO: add arguments and implementation.
+Proxy</Description>
+<FormalSpec>pRequest:Training.APIPerformance.Messages.Request</FormalSpec>
+<ReturnType>Training.APIPerformance.Messages.Response</ReturnType>
+<WebMethod>1</WebMethod>
+<Implementation><![CDATA[
+	Set pResponse = ""
+	
+	//LoggerService
+	$$$THROWONERROR(tSC, ##class(Ens.Director).CreateBusinessService(..#LoggerBusinessService,.tLoggerService))
+	
+	///Create Loggers
+	Set MsgLogger = ##Class(Training.APIPerformance.Version2.Loggers.MessageLogger).%New(tLoggerService)
+	Set ErrLogger = ##Class(Training.APIPerformance.Version2.Loggers.ErrorLogger).%New(tLoggerService)
+	Set RqtrLogger = ##Class(Training.APIPerformance.Version2.Loggers.RequestorLogger).%New(tLoggerService)
+	Set MtrLogger = ##Class(Training.APIPerformance.Version2.Loggers.MetricLogger).%New(tLoggerService)
+	Try
+	{
+		$$$THROWONERROR(tSC, RqtrLogger.Log(..Username))
+		$$$THROWONERROR(tSC, MsgLogger.Log(pRequest))
+		$$$THROWONERROR(tSC, MtrLogger.Record(pRequest))
+		
+		Set tClientObject = ##Class(Training.APIPerformance.Target.Client).%New()
+		Set pResponse = tClientObject.SaveRequest(pRequest)
+		
+		$$$THROWONERROR(tSC, MtrLogger.Record(pResponse))
+		$$$THROWONERROR(tSC, MtrLogger.Log())
+		$$$THROWONERROR(tSC, MsgLogger.Log(pResponse))
+	}
+	Catch ex
+	{
+		Do ErrLogger.Log(ex)
+	}
+	
+	Quit pResponse
+]]></Implementation>
+</Method>
+</Class>
+</Export>

@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="25" zv="Cache for Windows (x86-64) 2017.2.1 (Build 801_3_18358U)" ts="2019-08-05 05:18:19">
+<Project name="APIPerformanceTarget" LastModified="2019-07-31 04:26:55.178719">
+  <Items>
+    <ProjectItem name="Training.APIPerformance.Messages.Request" type="CLS"></ProjectItem>
+    <ProjectItem name="Training.APIPerformance.Messages.Response" type="CLS"></ProjectItem>
+    <ProjectItem name="Training.APIPerformance.Target.MyService" type="CLS"></ProjectItem>
+  </Items>
+</Project>
+
+
+<Class name="Training.APIPerformance.Messages.Request">
+<Super>Ens.Request</Super>
+<TimeChanged>65225,9712.646096</TimeChanged>
+<TimeCreated>65225,9712.374849</TimeCreated>
+
+<Property name="Content">
+<Type>%String</Type>
+<Parameter name="MAXLEN"/>
+</Property>
+
+<Storage name="Default">
+<Type>%Library.CacheStorage</Type>
+<DefaultData>RequestDefaultData</DefaultData>
+<Data name="RequestDefaultData">
+<Structure>listnode</Structure>
+<Subscript>"Request"</Subscript>
+<Value name="1">
+<Value>Content</Value>
+</Value>
+</Data>
+</Storage>
+</Class>
+
+
+<Class name="Training.APIPerformance.Messages.Response">
+<Super>Ens.Response</Super>
+<TimeChanged>65225,9719.421392</TimeChanged>
+<TimeCreated>65225,9719.061375</TimeCreated>
+
+<Property name="Content">
+<Type>%String</Type>
+<Parameter name="MAXLEN"/>
+</Property>
+
+<Storage name="Default">
+<Type>%Library.CacheStorage</Type>
+<DefaultData>ResponseDefaultData</DefaultData>
+<Data name="ResponseDefaultData">
+<Structure>listnode</Structure>
+<Subscript>"Response"</Subscript>
+<Value name="1">
+<Value>Content</Value>
+</Value>
+</Data>
+</Storage>
+</Class>
+
+
+<Class name="Training.APIPerformance.Target.MyService">
+<Description>
+Training.APIPerformance.Target.MyService</Description>
+<ProcedureBlock>1</ProcedureBlock>
+<Super>%SOAP.WebService</Super>
+<TimeChanged>65226,66398.493356</TimeChanged>
+<TimeCreated>65225,10564.577654</TimeCreated>
+
+<Parameter name="SERVICENAME">
+<Description>
+Name of the WebService.</Description>
+<Default>MyService</Default>
+</Parameter>
+
+<Parameter name="NAMESPACE">
+<Description>
+TODO: change this to actual SOAP namespace.
+SOAP Namespace for the WebService</Description>
+<Default>http://tempuri.org</Default>
+</Parameter>
+
+<Parameter name="USECLASSNAMESPACES">
+<Description>
+Namespaces of referenced classes will be used in the WSDL.</Description>
+<Default>1</Default>
+</Parameter>
+
+<Method name="SaveRequest">
+<Description>
+TODO: add arguments and implementation.
+SaveRequest</Description>
+<FormalSpec>pRequest:Training.APIPerformance.Messages.Request</FormalSpec>
+<ReturnType>Training.APIPerformance.Messages.Response</ReturnType>
+<WebMethod>1</WebMethod>
+<Implementation><![CDATA[
+	Set ^APIPerformance.Target($I(^APIPerformance.Target))=pRequest.Content
+	
+	Set pResponse = ##class(Training.APIPerformance.Messages.Response).%New()
+	Set pResponse.Content = pRequest.Content
+	Quit pResponse
+]]></Implementation>
+</Method>
+</Class>
+</Export>
